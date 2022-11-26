@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> JavaScript Form Validation | Free Projects1 </title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <meta name="keywords" content="free projects download, free projects for all, free projects with source code, free projects download sites, free projects for cse, free projects for computer science students, free project 1, free projects1, freeprojects1.blogspot.com">
+    <meta name="description" content="This is a Javascript Form Validation free project. In this project, we will check whether the username, email and password entered are correct or incorrect. We will show an error if the details entered are incorrect. And if the details entered are correct then we will show the success message.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2> REGISTRATION FORM </h2>
+        </div>
+        <form class="form" id="form">
+            <div class="form-control">
+                <label> Username </label>
+                <input type="text" name="" id="username" placeholder="Enter Full Name" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small> Error Msg </small>
+            </div>
+            <div class="form-control">
+                <label> Email </label>
+                <input type="email" name="" id="email" placeholder="Enter Email" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small> Error Msg </small>
+            </div>
+            <div class="form-control">
+                <label> Phone Number </label>
+                <input type="number" name="" id="phone" placeholder="Enter Your Phone Number" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small> Error Msg </small>
+            </div>
+            <div class="form-control">
+                <label> Password </label>
+                <input type="password" name="" id="password" placeholder="Enter Password" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small> Error Msg </small>
+            </div>
+            <div class="form-control">
+                <label> Re-Enter Password </label>
+                <input type="password" name="" id="cpassword" placeholder="Confirm Password" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small> Error Msg </small>
+            </div>
+            <input type="submit" value="Submit" class="btn" name="">
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        const form = document.getElementById('form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const password = document.getElementById('password');
+        const cpassword = document.getElementById('cpassword');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            validate();
+        })
+
+
+        const sendData = (sRate, count) => {
+            if (sRate === count) {
+                alert('Registration Success');
+            }
+        }
+
+
+        //check final form data validation
+        const successMsg = () => {
+            formCon = document.getElementsByClassName('form-control');
+            var count = formCon.length - 1;
+            for(var i = 0; i < formCon.length; i++){
+                if (formCon[i].className === "form-control success") {
+                    // var sRate = 0 + 1;
+                    var sRate = 1 + i;
+                    // console.log(formCon[i]);
+                    // console.log(count);
+                    sendData(sRate, count);
+                }else{
+                    return false;
+                }
+            }
+        }
+
+
+        // check deeply email address
+        const isEmail = (emailVal) => {
+            var atSymbol = emailVal.indexOf("@");
+            if (atSymbol < 1) return false;
+
+            var dot = emailVal.lastIndexOf(".");
+            if (dot <= atSymbol + 1) return false;
+            if (dot === emailVal.length - 1) return false;
+            return true;
+        }
+
+        const validate = () =>{
+            const usernameVal = username.value.trim();
+            const emailVal = email.value.trim();
+            const phoneVal = phone.value.trim();
+            const passwordVal = password.value.trim();
+            const cpasswordVal = cpassword.value.trim();
+
+            //validate username
+            if (usernameVal === "") {
+                setErrorMsg(username, 'Please fill out username!');
+            }else if(usernameVal.length <= 2) {
+                setErrorMsg(username, 'Username must have at least min 3 characters!');
+            }else{
+                setSuccessMsg(username);
+            }
+
+            //validate email
+            if (emailVal === "") {
+                setErrorMsg(email, 'Please fill out email!');
+            }else if(!isEmail(emailVal)) {
+                setErrorMsg(email, 'Not a valid email!');
+            }else{
+                setSuccessMsg(email);
+            }
+
+            //validate phone number
+            if (phoneVal === "") {
+                setErrorMsg(phone, 'Please fill out phone number!');
+            }else if(phoneVal.length != 10 ) {
+                setErrorMsg(phone, 'Phone number must have 10 digits only!');
+            }else{
+                setSuccessMsg(phone);
+            }
+
+            //validate password
+            if (passwordVal === "") {
+                setErrorMsg(password, 'Please fill out password!');
+            }else if(passwordVal.length <= 7 ) {
+                setErrorMsg(password, 'Password must have at least 8 characters!');
+            }else{
+                setSuccessMsg(password);
+            }
+
+            //validate password
+            if (cpasswordVal === "") {
+                setErrorMsg(cpassword, 'Please fill out confirm password!');
+            }else if(passwordVal != cpasswordVal ) {
+                setErrorMsg(cpassword, 'Password matching failed, Try again!');
+            }else{
+                setSuccessMsg(cpassword);
+            }
+
+            successMsg();
+        }
+
+        function setErrorMsg(input, errormsgs) {
+            const formControl = input.parentElement;
+            const small = formControl.querySelector('small');
+            formControl.className = "form-control error";
+            small.innerText = errormsgs;
+        }
+
+        function setSuccessMsg(input) {
+            const formControl = input.parentElement;
+            formControl.className = "form-control success";
+        }
+    </script>
+</body>
+</html> 
